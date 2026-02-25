@@ -83,7 +83,7 @@ export class Exercise {
 
     // Reopen the exercise
     reopen() : boolean {        
-        this.completed = getTimestamp();
+        this.completed = '';
 
         try {
             fs.unlinkSync(`${this.dataFolder}/.completed`);

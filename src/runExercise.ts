@@ -36,7 +36,7 @@ export async function runExercise(exercise : Exercise) : Promise<boolean> {
     const cmdResult = checkCommandFailure(result);
     if (cmdResult.failed) {
         logMessage(`Failed to extract from the TC ${tcUri.fsPath} necessary information for running the exercise. Reason: ${cmdResult.msg}`);
-        return;
+        return false;
     }
     const tcConfig = JSON.parse(result);
     let targetFolder : string = tcConfig.targetFolderPath;    
