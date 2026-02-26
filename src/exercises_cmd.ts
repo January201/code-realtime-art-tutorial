@@ -29,13 +29,9 @@ import { runExercise } from './runExercise.js';
 
 let exercisesMap = new Map<string, Exercise>();
 
-// Map iterator that iterates the exercises map in order of the exercise "order" property
-exercisesMap[Symbol.iterator] = function* () {
-    yield* [...exercisesMap.entries()].sort((a, b) => a[1].order - b[1].order);
-}
-
 // Populate the workspace and exercise map from the contents of the given folder
 function readExercises(location : string) {
+    exercisesMap.clear();
     let exerciseFolders = [];
 
     let items = fs.readdirSync(location, { withFileTypes : true });    
@@ -142,16 +138,23 @@ function readExercises(location : string) {
     if (toBeAdded.length > 0) {
         vscode.workspace.updateWorkspaceFolders(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, null, ...toBeAdded)
     }
+
+    // Sort exercises by their "order" property once, so iterations are always in order
+    const sortedEntries = [...exercisesMap.entries()].sort((a, b) => a[1].order - b[1].order);
+    exercisesMap.clear();
+    for (const [key, value] of sortedEntries) {
+        exercisesMap.set(key, value);
+    }
 }
 
 // Return a nonce value for the web view
 function getNonce(): string {
-	let nonce = "";
 	const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	for (let i= 0; i < 32; i++) {
-		nonce += possible.charAt(Math.floor(Math.random() * possible.length));
+	const parts: string[] = [];
+	for (let i = 0; i < 32; i++) {
+		parts.push(possible.charAt(Math.floor(Math.random() * possible.length)));
 	}
-	return nonce;
+	return parts.join('');
 }
 
 let introHTML : string = undefined;
