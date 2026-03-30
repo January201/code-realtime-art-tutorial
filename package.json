@@ -51,6 +51,6 @@
     "node-html-parser": "^7.0.1",
     "showdown": "^2.1.0",
     "jsdom": "^16.7.0",
-    "dompurify": "^3.2.6"
+    "dompurify": "^3.3.2"
   }
 }
