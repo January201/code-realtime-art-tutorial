@@ -113,13 +113,13 @@ function readExercises(location : string) {
                 !e.startsWith('.')) { // Ignore for example .git folder
                 logMessage('The folder "' + e + '_data" is not present, but is expected because a corresponding exercise folder "' + e + '" is in ' + location + '. This exercise will be skipped!');
             }
-            exercisesMap.delete(e.name);
+            exercisesMap.delete(e);
             continue;
         }
 
         if (!fs.existsSync(location + '/' + exercise.name + '/app.tcjs')) {
             logMessage('The exercise "' + exercise.name + '" is missing a TC file "app.tcjs". This exercise will be skipped!');
-            exercisesMap.delete(e.name);
+            exercisesMap.delete(exercise.name);
             continue;
         }
 
